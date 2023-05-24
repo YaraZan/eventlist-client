@@ -12,7 +12,10 @@ import Hero from '@/components/Hero.vue'
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Home',
-    components: { Hero }
+    components: { Hero },
+    created() {
+        this.$router.push(this.$store.state.metrics.current.route)
+    }
 }
 </script>
 

@@ -128,7 +128,7 @@ border-radius: 18px;
         background-position: center center;
         border: none;
         padding: 7px;
-        transition: all 0.3s cubic-bezier(0.42, 0, 0.58, 1);
+        transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
         cursor: pointer;
     }
     .event__button:hover {

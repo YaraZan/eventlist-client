@@ -3,7 +3,11 @@ import { createStore } from 'vuex'
 export default createStore({
 state: {
     user: {
-        username: ''
+        id: '',
+        name: '',
+        email: '',
+        role: '',
+        isAuthorized: false
     },
     metrics: {
         data: [

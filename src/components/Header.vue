@@ -7,6 +7,16 @@
                 <router-link to="/Work" class="header__link header__work-link">Работа</router-link>
                 <router-link to="/About" class="header__link header__about-link">О нас</router-link>
             </div>
+            <div v-if="isAuthorized" class="header__profile-wrapper">
+                <a href="" class="notifications"></a>
+                <a href="" class="user-profile">
+                    <img src="" alt="" class="user-profile-img-33">
+                </a>
+            </div>
+            <div v-else class="header__button-wrapper">
+                <button class="sign-in-btn">Вход</button>
+                <button class="sign-up-btn">Регистрация</button>
+            </div>
         </div>
     </div>
 </template>
@@ -15,7 +25,15 @@
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Header'
+    name: 'Header',
+    data() {
+        return {
+            isAuthorized: false
+        }
+    },
+    async created() {
+
+    }
 }
 
 </script>
@@ -49,5 +67,33 @@ export default {
     .header__link:active {
         border-bottom: 1px solid #000000;
         color: #000000;
+    }
+    .header__button-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: auto;
+    }
+    .sign-in-btn {
+        border: none;
+        background-color: transparent;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 13px;
+        color: #828282;
+        padding: 10px 17px;
+        cursor: pointer;
+    }
+    .sign-up-btn {
+        border: none;
+        background: #6070FE;
+        border-radius: 8px;
+        padding: 10px 17px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 13px;
+
+        color: #FFFFFF;
+        cursor: pointer;
     }
 </style>

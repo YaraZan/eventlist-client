@@ -14,8 +14,8 @@
                 </a>
             </div>
             <div v-else class="header__button-wrapper">
-                <button class="sign-in-btn">Вход</button>
-                <button class="sign-up-btn">Регистрация</button>
+                <router-link to="/Login"><button class="sign-in-btn">Вход</button></router-link>
+                <router-link to="/Login"><button class="sign-up-btn">Регистрация</button></router-link>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ import HomeSocial from '@/components/HomeSocial.vue'
 import HomeBusiness from '@/components/HomeBusiness.vue'
 import HomeCulture from '@/components/HomeCulture.vue'
 import HomeScience from '@/components/HomeScience.vue'
+import HomePopular from '@/components/HomePopular.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -18,6 +19,10 @@ export default createRouter({
             path: '/', 
             component: Home, 
             children: [
+                {
+                    path: 'popular',
+                    component: HomePopular
+                },
                 {
                     path: 'education',
                     component: HomeEducation

@@ -28,7 +28,7 @@ export default {
     name: 'Header',
     data() {
         return {
-            isAuthorized: false
+            isAuthorized: this.$store.state.user.isAuthorized
         }
     },
     async created() {

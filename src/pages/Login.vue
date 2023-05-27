@@ -9,7 +9,7 @@
             <input v-model="name" :placeholder="'Имя'" type="text" class="input name__input">
             <input v-model="pass" :placeholder="'Пароль'" type="text" class="input pass__input">
             <input v-model="passcnf" :placeholder="'Подтверждение пароля'" type="text" class="input passcnf__input">
-            <button class="login__signup">Зарегистрироваться</button>
+            <button @click.prevent="validate()" class="login__signup">Зарегистрироваться</button>
             <div class="login__changeauth-wrapper">
                 <span class="changeauth-text">Есть аккаунт?</span>
                 <RouterLink class="changeauth-link" to="/Auth">Войдите</RouterLink>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { createUser } from '@/api/UsersService'
+
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Login',
@@ -28,6 +30,22 @@ export default {
             name: '',
             pass: '',
             passcnf: ''
+        }
+    },
+    methods: {
+        validate() {
+            if (!this.email || !this.name || !this.pass || !this.passcnf) { 
+                alert("Заполните все поля!") 
+            } 
+            if (this.pass != this.passcnf) { 
+                alert("Пароли не совпадают!")
+            }
+            try {
+                createUser(this.name, this.email, this.password)
+
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 }

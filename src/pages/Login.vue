@@ -5,13 +5,14 @@
             <img src="../img/logo-colorfull.png" alt="" class="login__icon">
             <span class="login__title">Добро пожаловать!</span>
             <span class="login__descr">Создайте аккаунт</span>
-            <input :placeholder="'Почта'" type="text" class="input email__input">
-            <input :placeholder="'Имя'" type="text" class="input name__input">
-            <input :placeholder="'Пароль'" type="text" class="input pass__input">
-            <input :placeholder="'Подтверждение пароля'" type="text" class="input passcnf__input">
+            <input v-model="email" :placeholder="'Почта'" type="text" class="input email__input">
+            <input v-model="name" :placeholder="'Имя'" type="text" class="input name__input">
+            <input v-model="pass" :placeholder="'Пароль'" type="text" class="input pass__input">
+            <input v-model="passcnf" :placeholder="'Подтверждение пароля'" type="text" class="input passcnf__input">
             <button class="login__signup">Зарегистрироваться</button>
             <div class="login__changeauth-wrapper">
                 <span class="changeauth-text">Есть аккаунт?</span>
+                <RouterLink class="changeauth-link" to="/Auth">Войдите</RouterLink>
             </div>
         </form>
     </div>
@@ -20,13 +21,24 @@
 <script>
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Login'
+    name: 'Login',
+    data() {
+        return {
+            email: '',
+            name: '',
+            pass: '',
+            passcnf: ''
+        }
+    }
 }
 </script>
 
 <style>
     .login__container {
         margin: 0 auto;
+        position: absolute;
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -100,5 +112,13 @@ export default {
         font-size: 13.8146px;
         line-height: 17px;
         color: #9B9B9B;
+    }
+    .changeauth-link {
+        font-weight: 400;
+        font-size: 13.8146px;
+        line-height: 17px;
+        color: #6070FE;
+        text-decoration: none;
+        margin-left: 20px;
     }
 </style>

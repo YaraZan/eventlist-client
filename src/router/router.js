@@ -1,17 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from '@/pages/Home.vue';
-import Work from '@/pages/Work.vue';
-import About from '@/pages/About.vue';
-import Login from '@/pages/Login.vue';
-import Auth from '@/pages/Auth.vue';
+import { Home, Work, About, Login, Auth, Profile } from '@/pages'
+import { HomeEducation, HomeSocial, HomeBusiness, HomeCulture, HomeScience, HomePopular } from '@/components'
 
-import HomeEducation from '@/components/HomeEducation.vue'
-import HomeSocial from '@/components/HomeSocial.vue'
-import HomeBusiness from '@/components/HomeBusiness.vue'
-import HomeCulture from '@/components/HomeCulture.vue'
-import HomeScience from '@/components/HomeScience.vue'
-import HomePopular from '@/components/HomePopular.vue'
+/**
+ * @type {Boolean}
+ */
+// eslint-disable-next-line no-prototype-builtins
+const isAuthorized = localStorage.hasOwnProperty('token');
+
+const authGuard = function (to, from, next) {
+    console.log(isAuthorized)
+    if (!isAuthorized) next({name: 'Login'});
+    else next()
+}
 
 export default createRouter({
     history: createWebHistory(),
@@ -19,6 +21,7 @@ export default createRouter({
         { 
             path: '/', 
             component: Home, 
+            name: 'Home',
             children: [
                 {
                     path: 'popular',
@@ -46,9 +49,10 @@ export default createRouter({
                 },
             ]
         },
-        { path: '/Work', component: Work },
-        { path: '/About', component: About },
-        { path: '/Login', component: Login },
-        { path: '/Auth', component: Auth }
+        { path: '/work', name: 'Work', component: Work },
+        { path: '/about', name: 'About', component: About },
+        { path: '/login', name: 'Login', component: Login },
+        { path: '/auth', name: 'Auth', component: Auth },
+        { path: '/profile', name: 'Profile', component: Profile, beforeEnter: authGuard}
     ]
 })

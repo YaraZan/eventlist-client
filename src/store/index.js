@@ -3,12 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
 state: {
     user: {
-        data: {
-            name: '',
-            email: ''
-        },
-        jwt: '',
-        isAuthorized: false
+        token: localStorage.getItem('token') || null,
+        role: localStorage.getItem('userRole') || null,
     },
     metrics: {
         data: [
@@ -56,10 +52,40 @@ state: {
             descr: 'Поиск мероприятий по вашему региону'
         }
     }
-  },
+},
+getters: {
+    getUserRole: (state) => state.user.userRole,
+    getToken: (state) => state.user.token,
+    getAuthorized: (state) => {
+        if (state.user.token) {
+            return true
+        } else {
+            return false
+        }
+    }
+},
 mutations: {
     UPDATE_METRICS(state, payload) {
         state.metrics = payload
+    },
+    SET_TOKEN(state, token) {
+        state.user.token = token;
+        localStorage.setItem('token', token)
+    },
+
+    SET_USER_ROLE(state, role) {
+        state.user.role = role;
+        localStorage.setItem('userRole', role)
+    },
+
+    DELETE_TOKEN(state) {
+        state.user.token = null;
+        localStorage.removeItem('token');
+    },
+
+    DELETE_USER_ROLE(state) {
+        state.user.role = null;
+        localStorage.removeItem('userRole');
     }
 },
 actions: {
@@ -72,9 +98,13 @@ actions: {
         const metrics = context.state.metrics
         metrics.current = payload
         context.commit('UPDATE_METRICS', metrics)
+    },
+    login(context, payload) {
+        context.commit('SET_TOKEN', payload);
+    },
+    logout(context) {
+        context.commit('DELETE_TOKEN', null);
+        context.commit('DELETE_USER_ROLE', null)
     }
-},
-getters: {
-
 }
 })

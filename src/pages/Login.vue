@@ -1,55 +1,80 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="login__container">
-        <form class="login__registration-form">
-            <img src="../img/logo-colorfull.png" alt="" class="login__icon">
-            <span class="login__title">Добро пожаловать!</span>
-            <span class="login__descr">Создайте аккаунт</span>
-            <input v-model="email" :placeholder="'Почта'" type="text" class="input email__input">
-            <input v-model="name" :placeholder="'Имя'" type="text" class="input name__input">
-            <input v-model="pass" :placeholder="'Пароль'" type="text" class="input pass__input">
-            <input v-model="passcnf" :placeholder="'Подтверждение пароля'" type="text" class="input passcnf__input">
-            <button @click.prevent="validate()" class="login__signup">Зарегистрироваться</button>
-            <div class="login__changeauth-wrapper">
-                <span class="changeauth-text">Есть аккаунт?</span>
-                <RouterLink class="changeauth-link" to="/Auth">Войдите</RouterLink>
-            </div>
-        </form>
+      <form @submit.prevent="onSubmit()" class="login__registration-form">
+        <img src="../img/logo-colorfull.png" alt="" class="login__icon">
+        <span class="login__title">Добро пожаловать!</span>
+        <span class="login__descr">Создайте аккаунт</span>
+        <input v-model="email" :placeholder="'Почта'" type="text" class="input email__input">
+        <input v-model="name" :placeholder="'Имя'" type="text" class="input name__input">
+        <input v-model="pass" :placeholder="'Пароль'" type="password" class="input pass__input">
+        <input v-model="passcnf" :placeholder="'Подтверждение пароля'" type="password" class="input passcnf__input">
+        <button class="login__signup">Зарегистрироваться</button>
+        <div class="login__changeauth-wrapper">
+          <span class="changeauth-text">Есть аккаунт?</span>
+          <RouterLink class="changeauth-link" to="/auth">Войдите</RouterLink>
+        </div>
+      </form>
     </div>
-</template>
-
-<script>
-import { createUser } from '@/api/UsersService'
-
-export default {
+  </template>
+  
+  <script>
+  import axios from "axios";
+  
+  export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Login',
     data() {
-        return {
-            email: '',
-            name: '',
-            pass: '',
-            passcnf: ''
-        }
+      return {
+        email: '',
+        name: '',
+        pass: '',
+        passcnf: ''
+      }
     },
     methods: {
-        validate() {
-            if (!this.email || !this.name || !this.pass || !this.passcnf) { 
-                alert("Заполните все поля!") 
-            } 
-            if (this.pass != this.passcnf) { 
-                alert("Пароли не совпадают!")
+      onSubmit() {
+        if (!this.email || !this.name || !this.pass || !this.passcnf) {
+          alert("Заполните все поля!")
+        } else if (this.pass !== this.passcnf) {
+          alert("Пароли не совпадают!")
+        } else {
+            const data = {
+                name: this.name, 
+                email: this.email,
+                password: this.pass
             }
-            try {
-                createUser(this.name, this.email, this.password)
-
-            } catch (e) {
-                console.log(e)
-            }
+            axios.post(`http://localhost/eventlist-api/api/user/create_user.php`, data)
+            .then(response => {
+              if (response.status === 200) {
+                this.loginUserAndRedirect(this.email, this.pass)
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
         }
+      },
+      loginUserAndRedirect() {
+        const data = {
+          email: this.email,
+          password: this.pass
+        }
+        axios.post(`http://localhost/eventlist-api/api/user/login.php`, data)
+          .then(response => {
+            if (response.status === 200) {
+              this.$store.dispatch('login', response.data.token);
+              this.$router.push({name: 'Home'})
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     }
-}
-</script>
+  }
+  </script>
+  
 
 <style>
     .login__container {
@@ -95,6 +120,15 @@ export default {
         border: 1px solid #E0E0E0;
         border-radius: 8px;
         padding: 14px;
+        transition: all .3s cubic-bezier(0.42, 0, 0.58, 1);
+    }
+    .input:focus {
+      background-color: #EEEEEE;
+    }
+    .input:focus,
+    .input:active,
+    .input:hover {
+      outline: none;
     }
     .input:not(:last-child) {
         margin-bottom: 11px;
@@ -117,6 +151,18 @@ export default {
         padding: 14px 0;
         text-align: center;
         border: none;
+        transition: all .3s cubic-bezier(0.42, 0, 0.58, 1);
+    }
+    .login__signup:focus {
+      opacity: 80%;
+    }
+    .login__signup:hover {
+      opacity: 80%;
+    }
+    .login__signup:focus,
+    .login__signup:active,
+    .login__signup:hover {
+      outline: none;
     }
     .login__changeauth-wrapper {
         width: 100%;

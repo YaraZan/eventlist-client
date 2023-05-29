@@ -12,8 +12,8 @@
 
 <script>
 import Event from '@/layouts/Event.vue';
-import { getAllEvents } from '@/api/EventsService'
 import { getUserById } from '@/api/UsersService'
+import axios from 'axios';
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -22,17 +22,22 @@ export default {
     data() {
         return {
             events: [],
-            users: {}
+            users: {},
         }
     }, 
+    props: {
+        organisation: Number
+    },
     created() {
         this.getAllEvents();
     },
     methods: {
         getAllEvents() {
-            getAllEvents().then(responce => {
-                this.events = responce.data
-            })
+            const data = { organisation: this.organisation }
+            axios.post('http://localhost/eventlist-api/api/event/read_by_organisation.php', data)
+                .then(responce => {
+                    this.events = responce.data.data;
+                })
         },
         getUserById(id) {
             if (this.users[id]) {

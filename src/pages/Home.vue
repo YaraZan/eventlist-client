@@ -25,12 +25,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    .events-container {
-        padding: 0px 160px;
-        margin-top: 60px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-</style>

@@ -64,7 +64,7 @@
           .then(response => {
             if (response.status === 200) {
               this.$store.dispatch('login', response.data.token);
-              this.$router.push({name: 'Home'})
+              this.$router.push({name: 'Home'});
             }
           })
           .catch(error => {

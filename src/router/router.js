@@ -15,6 +15,12 @@ const authGuard = function (to, from, next) {
     else next()
 }
 
+const loginGuard = function (to, from, next) {
+    console.log(isAuthorized)
+    if (isAuthorized) next({name: 'Home'});
+    else next()
+}
+
 export default createRouter({
     history: createWebHistory(),
     routes: [
@@ -51,8 +57,8 @@ export default createRouter({
         },
         { path: '/work', name: 'Work', component: Work },
         { path: '/about', name: 'About', component: About },
-        { path: '/login', name: 'Login', component: Login },
-        { path: '/auth', name: 'Auth', component: Auth },
+        { path: '/login', name: 'Login', component: Login, beforeEnter: loginGuard },
+        { path: '/auth', name: 'Auth', component: Auth, beforeEnter: loginGuard },
         { path: '/profile', name: 'Profile', component: Profile, beforeEnter: authGuard}
     ]
 })

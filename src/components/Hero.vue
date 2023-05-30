@@ -68,6 +68,8 @@ export default {
         color: #000000;
         width: 578px;
         border-radius: 50px;
+        box-shadow: 0px 5px 48px rgba(0, 0, 0, 0.25);
+        border-radius: 25px;
     }
     .hero__search-field::placeholder {
         font-weight: 500;

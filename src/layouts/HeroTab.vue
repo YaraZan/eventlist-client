@@ -27,7 +27,7 @@ export default {
         font-weight: 600;
         font-size: 15px;
         line-height: 18px;
-        color: #828282;
+        color: #DBDBDB;
         text-decoration: none;
         transition: all .5s cubic-bezier(0.42, 0, 0.58, 1);
     }

@@ -44,7 +44,7 @@ border-radius: 18px;
     .img-block {
         width: 100%;
         height: 234px;
-        border-radius: 18px;
+        border-radius: 22px;
         position: relative;
         display: inline-block;
         cursor: pointer;
@@ -63,7 +63,7 @@ border-radius: 18px;
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 18px;
+        border-radius: 22px;
         background-color: rgba(0, 0, 0, 0.5); /* Цвет затемнения (черный с прозрачностью 0.5) */
         opacity: 0; /* Начальная прозрачность */
         transition: opacity 0.3s cubic-bezier(0.42, 0, 0.58, 1);

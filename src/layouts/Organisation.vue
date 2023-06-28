@@ -6,7 +6,7 @@
             <span class="organisation__name">{{ name }}</span>
             <span class="organisation__email">{{ email }}</span>
         </div>
-        <EventsContainer :organisation="id"></EventsContainer>
+        <EventsContainer :organisation="public_id"></EventsContainer>
     </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     props: {
         name: String,
         email: String,
-        id: Number
+        public_id: String
     }
 }
 </script>
@@ -28,7 +28,8 @@ export default {
 <style>
     .organisation-container {
         display: flex;
-        padding: 0px 160px;
+        padding: 0px 189px;
+        justify-content: space-between;
         margin-top: 60px;
         flex-direction: column;
     }
@@ -49,6 +50,10 @@ export default {
         font-size: 13px;
         line-height: 12px;
         color: #828282;
+        background-image: url('@/img/link-point.png');
+        background-repeat: no-repeat;
+        background-position: left center;
+        padding-left: 13px;
     }
     .events-container {
         margin-top: 14px;

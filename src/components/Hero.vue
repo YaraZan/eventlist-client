@@ -29,11 +29,12 @@ export default {
 
 <style>
     .home__hero {
-        background-image: url('../img/hero-background.png');
+        background-image: url('../img/hero-background-animated.svg');
         background-size: cover;
         background-repeat: no-repeat;
         width: 100%;
-        padding: 100px 0;
+        padding-top: 114px;
+        padding-bottom: 70px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -70,7 +71,23 @@ export default {
         border-radius: 50px;
         box-shadow: 0px 5px 48px rgba(0, 0, 0, 0.25);
         border-radius: 25px;
+        background-image: url('@/img/search.png');
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-origin: content-box;
+        transition: all .2s cubic-bezier(0,1.5,1,1.5);
     }
+    .hero__search-field:hover,
+    .hero__search-field:focus,
+    .hero__search-field:active {
+        outline: none;
+    }
+
+    .hero__search-field:focus,
+    .hero__search-field:active {
+        transform: translateY(5px);
+    }
+    
     .hero__search-field::placeholder {
         font-weight: 500;
         font-size: 15px;

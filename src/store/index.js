@@ -4,16 +4,10 @@ export default createStore({
 state: {
     user: {
         token: localStorage.getItem('token') || null,
-        role: localStorage.getItem('userRole') || null,
+        role: localStorage.getItem('userRole') || null
     },
     metrics: {
         data: [
-            {
-                name: 'Популярные',
-                route: '/popular',
-                title: 'Найдите опыт!',
-                descr: 'Поиск мероприятий по вашему региону'
-            },
             {
                 name: 'Образование',
                 route: '/education',
@@ -51,18 +45,15 @@ state: {
             title: 'Найдите опыт!',
             descr: 'Поиск мероприятий по вашему региону'
         }
+    },
+    windows: {
+        modal: false
     }
 },
 getters: {
     getUserRole: (state) => state.user.userRole,
     getToken: (state) => state.user.token,
-    getAuthorized: (state) => {
-        if (state.user.token) {
-            return true
-        } else {
-            return false
-        }
-    }
+    getModal: (state) => state.windows.modal
 },
 mutations: {
     UPDATE_METRICS(state, payload) {
@@ -71,6 +62,10 @@ mutations: {
     SET_TOKEN(state, token) {
         state.user.token = token;
         localStorage.setItem('token', token)
+    },
+
+    SET_MODAL(state) {
+        state.windows.modal = true
     },
 
     SET_USER_ROLE(state, role) {

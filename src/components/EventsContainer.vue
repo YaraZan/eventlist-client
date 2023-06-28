@@ -5,15 +5,14 @@
                 :key="index"
                 :name="event.name"
                 :descr="event.descr"
-                :creator="getUserById(event.creator)"
+                v-on:click="openEvent(event.public_id)"
             ></Event>
         </div>
 </template>
 
 <script>
 import Event from '@/layouts/Event.vue';
-import { getUserById } from '@/api/UsersService'
-import axios from 'axios';
+import { EventlistAPI } from '@/api/EventlistAPI';
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -26,30 +25,20 @@ export default {
         }
     }, 
     props: {
-        organisation: Number
+        organisation: String
     },
     created() {
         this.getAllEvents();
     },
     methods: {
         getAllEvents() {
-            const data = { organisation: this.organisation }
-            axios.post('http://localhost/eventlist-api/api/event/read_by_organisation.php', data)
+            EventlistAPI.get_events_by_organisation(this.organisation)
                 .then(responce => {
                     this.events = responce.data.data;
                 })
         },
-        getUserById(id) {
-            if (this.users[id]) {
-                // Если имя пользователя уже получено, вернуть его
-                return this.users[id];
-            } else {
-                // Иначе, получить имя пользователя и сохранить его в users
-                return getUserById(id).then(response => {
-                this.users[id] = response.name; // Используем $set для реактивного обновления users
-                return response.name;
-                });
-            }
+        openEvent(public_id) {
+            this.$router.push(`/event/${public_id}`)
         }
     }
 }

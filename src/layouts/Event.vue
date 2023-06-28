@@ -1,144 +1,94 @@
 <template>
     <div class="event">
-        <div class="img-block">
-            <img src="../img/default-event-bg.png" alt="event" class="event__img">
-            <div class="event__hiddenlayer">
-                <span class="event__author">{{ creator }}</span>
-                <div class="event__button-wrapper">
-                    <button class="event__button duplicate-btn"></button>
-                    <button class="event__button participate-btn"></button>
-                </div>
+        <img src="../img/default-event-bg.png" alt="event" class="event__img">
+        <span class="event__title">{{ name }}</span>
+        <span class="event__descr">{{ descr }}</span>
+        <div class="event__bottom-content-wrapper">
+            <!--Signed component-->
+            <div class="event__button-wrapper">
+                <button class="event__button event-link"></button>
+                <button class="event__button event-like"></button>
             </div>
-        </div>
-        <div class="event__content">
-            <span class="event__title">{{ name }}</span>
-            <span class="event__descr">{{ descr }}</span>
         </div>
     </div>
 </template>
 
 <script>
+
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Event',
     props: {
         name: String,
-        descr: String,
-        creator: String
+        descr: String
     }
 }
 </script>
 
 <style>
     .event {
-        width: 380px;
-        height: 297px;
-        background-color: #FCFCFC;
+        width: 278px;
+        height: 292px;
+        background-color: rgba(248, 248, 248, 1);
         border-radius: 18px;
-        box-shadow: 0px -0.904594px 29.8516px rgba(0, 0, 0, 0.08);
-border-radius: 18px;
-    }
-    .event:not(:nth-child(4n)) {
-        margin-right: 6px;
-    }
-    .img-block {
-        width: 100%;
-        height: 234px;
-        border-radius: 22px;
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .img-block img {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
-
-    .img-block::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 22px;
-        background-color: rgba(0, 0, 0, 0.5); /* Цвет затемнения (черный с прозрачностью 0.5) */
-        opacity: 0; /* Начальная прозрачность */
-        transition: opacity 0.3s cubic-bezier(0.42, 0, 0.58, 1);
-    }
-
-    .img-block:hover::after {
-        opacity: 1; /* Полная прозрачность при наведении */
-    }
-
-    .event__content {
-        padding: 9px 19px;
+        padding: 14px;
         display: flex;
         flex-direction: column;
-        align-items: first baseline;
+        cursor: pointer;
+        transition: all 400ms cubic-bezier(.47,1.64,.41,.8);
+    }
+    .event:not(:nth-child(5n)) {
+        margin-right: 30px;   
+    }
+    .event:hover {
+        transform: scale(1.050);
     }
     .event__title {
+        margin-top: 13px;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 17px;
         color: #000000;
     }
     .event__descr {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 11px;
-        color: #828282;
         margin-top: 6px;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 12px;
+        color: #828282;
     }
-    .event__hiddenlayer {
-        display: none;
+    .event__img {
         width: 100%;
-        padding: 0 19px;
-        z-index: 1;
-        position: absolute;
-        justify-content: center;
-        align-items: center;
-        top: auto;
-        bottom: 15px;
-        transition: all 0.3s cubic-bezier(0.42, 0, 0.58, 1);
+        height: 153px;
+        border-radius: 10px;
     }
-    .img-block:hover .event__hiddenlayer {
+    .event__bottom-content-wrapper {
+        margin-top: 22px;
+        padding-top: 16px;
         display: flex;
+        align-items: center;
     }
     .event__button-wrapper {
         display: flex;
+        align-items: center;
         margin-left: auto;
     }
-    .event__author {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 18px;
-        color: #FFFFFF;
-    }
     .event__button {
-        width: 37px;
-        height: 37px;
-        background-color: #c5c5c5;
-        opacity: 60%;
-        border-radius: 9px;
-        background-repeat: no-repeat;
-        background-size: 20px 20px;
-        background-position: center center;
+        background: #EEEEEE;
+        border-radius: 5px;
         border: none;
-        padding: 7px;
-        transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
-        cursor: pointer;
+        width: 25px;
+        height: 25px;
+
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        background-position: center center;
     }
-    .event__button:hover {
-        opacity: 100%;
+    .event-link {
+        background-image: url('@/img/event-link.png');
     }
-    .duplicate-btn {
-        background-image: url('@/img/event-duplicate-icon.png');
-    }
-    .participate-btn {
-        background-image: url('@/img/event-sign-icon.png');
-        margin-left: 6px;
+    .event-like {
+        background-image: url('@/img/event-like.png');
+        margin-left: 10px;
     }
 </style>

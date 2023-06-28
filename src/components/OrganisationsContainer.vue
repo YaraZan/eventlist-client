@@ -4,13 +4,13 @@
         :key="index"
         :name="organisation.name"
         :email="organisation.email"
-        :id="organisation.id"
+        :public_id="organisation.public_id"
     ></Organisation>
 </template>
 
 <script>
 import Organisation from '@/layouts/Organisation.vue';
-import axios from 'axios';
+import { EventlistAPI } from '@/api/EventlistAPI';
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         getAllOrganisations() {
-            axios.get('http://localhost/eventlist-api/api/organisation/read.php')
+            EventlistAPI.get_all_organisations()
                 .then(responce => {
                     this.organisations = responce.data.data
                 })

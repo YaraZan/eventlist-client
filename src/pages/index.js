@@ -4,6 +4,7 @@ import About from '@/pages/About.vue';
 import Login from '@/pages/Login.vue';
 import Auth from '@/pages/Auth.vue';
 import Profile from '@/pages/Profile.vue';
+import Event from '@/pages/Event.vue';
 
 export { 
     Home,
@@ -11,5 +12,6 @@ export {
     About,
     Login,
     Auth,
-    Profile
+    Profile,
+    Event
 }

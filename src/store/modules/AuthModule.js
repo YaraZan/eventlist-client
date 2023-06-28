@@ -1,4 +1,5 @@
-import { AuthAPI } from "@/api/AuthAPI";
+import { DefaultAPIINstance } from "@/api";
+import { EventlistAPI } from "@/api/EventlistAPI";
 
 export const AuthModule = {
     namespaced: true,
@@ -40,9 +41,10 @@ export const AuthModule = {
 
     actions: {
         onLogin({commit}, {email, password}) {
-            AuthAPI.login({email, password}).then((res) => {
+            return EventlistAPI.login({email, password}).then((res) => {
                 commit('setToken', res.token);
                 commit('setUserRole', res.token.data.role);
+                DefaultAPIINstance.defaults.headers['authorization'] = `Bearer ${res.token}`;
             })
         },
 

@@ -1,34 +1,45 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+    <Header></Header>
     <div class="profile__container">
-        <div class="user-profile">
-            <div class="user-nav">
-                <img src="@/img/default-userpfp-32.png" alt="" class="user-pfp">
-                <button @click="logout()" class="log-out">Выход</button>
-            </div>
-            <div class="user-content">
-                <span class="user__name">{{ name }}</span>
-                <span class="user__email">{{ email }}</span>
-                <div class="user__work-wrapper">
-                    <span class="work-text">Работа</span>
-                    <span class="user__work">{{ work }}</span>
-                </div>
+        <div class="profile__user-wrapper">
+            <img src="@/img/default-user-pfp-orange.png" alt="" class="profile__image">
+            <div class="profile__credentials-wrapper">
+                <span class="profile__name">{{ name }}</span>
+                <span class="profile__email">{{ email }}</span>
             </div>
         </div>
+        <div class="profile__buttons-wrapper">
+            <button @click="logout" class="profile__logout">Выход</button>
+            <button class="profile__settings">Настроить профиль</button>
+        </div>
+        <div class="profile__links-wrapper">
+            <router-link :to="{ name: 'organisations'}" class="profile__link">
+                <span class="profile__link-name">Организации</span>
+            </router-link>
+            <router-link :to="{ name: 'works'}" class="profile__link">
+                <span class="profile__link-name">Работа</span>
+            </router-link>
+            <router-link :to="{ name: 'signs'}" class="profile__link">
+                <span class="profile__link-name">Участие</span>
+            </router-link>
+        </div>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import Header from '@/components/Header.vue';
+import { EventlistAPI } from '@/api/EventlistAPI';
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Profile',
+    components: {Header},
     data() {
         return {
             name: null,
             email: null,
-            work: ''
         }
     },
     created() {
@@ -36,18 +47,18 @@ export default {
     },
     methods: {
         loadUserData() {
-            const data = {
-                token: this.$store.getters.getToken
-            }
-            axios.post(`http://localhost/eventlist-api/api/user/validate_token.php`, data)
-            .then(response => {
-                if (response.status === 200) {
-                    this.name = response.data.data.name,
-                    this.email = response.data.data.email
-                } else {
-                    alert('Доступ запрещён')
-                }
-            })
+            EventlistAPI.validate(localStorage.getItem('token'))
+                .then(response => {
+                    if (response.status === 200) {
+                        this.name = response.data.data.name,
+                        this.email = response.data.data.email
+                    } else {
+                        alert('Доступ запрещён')
+                    }
+                })
+                .catch(error => {
+                console.log(error)
+              })
         },
         logout() {
             this.$store.dispatch('logout');
@@ -59,72 +70,85 @@ export default {
 
 <style>
 .profile__container {
-    padding: 0px 160px;
-    display: flex;
-}
-.user-profile {
-    padding-top: 70px;
-    display: flex;
-}
-.user-nav {
+    padding: 44px 189px 0 189px;
     display: flex;
     flex-direction: column;
 }
-.user-content {
-    padding-left: 37px;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-}
-.user__work-wrapper {
+.profile__user-wrapper {
     display: flex;
     align-items: center;
-    margin-top: 70px;
 }
-.user__name {
+.profile__image {
+    width: 62px;
+    height: 62px;
+}
+.profile__credentials-wrapper {
+    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+}
+.profile__name {
     font-weight: 700;
-    font-size: 19.2588px;
-    line-height: 23px;
+    font-size: 14.2056px;
+    line-height: 17px;
     color: #000000;
 }
-.user__email {
+.profile__email {
+    margin-top: 5px;
     font-weight: 400;
-    font-size: 16.22px;
-    line-height: 20px;
+    font-size: 11.9641px;
+    line-height: 15px;
     color: #B7ACAC;
-    margin-top: 7px;
-
 }
-.work-text {
-    font-weight: 500;
-    font-size: 15.6731px;
-    line-height: 19px;
-    color: #828282; 
+.profile__buttons-wrapper {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
 }
-.user__work {
-    font-weight: 500;
-    font-size: 15.6731px;
-    line-height: 19px;
-    color: #828282; 
-}
-.log-out {
-    margin-top: 12px;
+.profile__logout {
     border: none;
-    background: #FAFAFA;
-    border-radius: 8px;
+    background: #F6F6F6;
+    border-radius: 5px;
     font-weight: 600;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 10.7637px;
+    line-height: 13px;
     color: #828282;
-    background-image: url('@/img/log-out-icon.png');
-    background-size: 17px 17px;
-    background-repeat: no-repeat;
-    background-position: left center;
-    padding: 8px 25px;
-    transition: all .2s cubic-bezier(0.215, 0.610, 0.355, 1);
+    padding: 11px 14px;
     cursor: pointer;
 }
-.log-out:hover {
-    opacity: 80%;
+.profile__settings {
+    margin-left: 9px;
+    border: 0.715302px solid rgba(0, 0, 0, 0.1);
+    background: transparent;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 10.7637px;
+    line-height: 13px;
+    color: #000000;
+    padding: 11px 14px;
+    cursor: pointer;
+}
+.profile__links-wrapper {
+    margin-top: 100px;
+    display: flex;
+    padding-bottom: 30px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+.profile__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+.profile__link.active .profile__link-name {
+    color: #000000;
+}
+.profile__link:not(:last-child) {
+    margin-right: 50px;
+}
+.profile__link-name {
+    font-weight: 600;
+    font-size: 13.65px;
+    line-height: 17px;
+    color: #828282;
 }
 </style>

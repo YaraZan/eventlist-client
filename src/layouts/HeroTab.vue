@@ -35,7 +35,7 @@ export default {
         background-color: #FFFFFF;
         color: #000000;
     }
-    .active {
+    .hero-tab.active {
         background-color: #FFFFFF;
         color: #000000;
     }

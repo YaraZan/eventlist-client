@@ -19,7 +19,7 @@
   </template>
   
   <script>
-  import axios from "axios";
+  import { EventlistAPI } from "@/api/EventlistAPI";
   
   export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -39,37 +39,22 @@
         } else if (this.pass !== this.passcnf) {
           alert("Пароли не совпадают!")
         } else {
-            const data = {
-                name: this.name, 
-                email: this.email,
-                password: this.pass
-            }
-            axios.post(`http://localhost/eventlist-api/api/user/create_user.php`, data)
-            .then(response => {
-              if (response.status === 200) {
-                this.loginUserAndRedirect(this.email, this.pass)
-              }
-            })
-            .catch(error => {
-              console.log(error)
-            })
+            EventlistAPI.create(this.name, this.email, this.pass)
+              .then(response => {
+                if (response.status === 200) {
+                  this.loginUserAndRedirect(this.email, this.pass)
+                }
+              })
+              .catch(error => {
+                console.log(error)
+              })
         }
       },
       loginUserAndRedirect() {
-        const data = {
-          email: this.email,
-          password: this.pass
-        }
-        axios.post(`http://localhost/eventlist-api/api/user/login.php`, data)
-          .then(response => {
-            if (response.status === 200) {
-              this.$store.dispatch('login', response.data.token);
-              this.$router.push({name: 'Home'});
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
+        EventlistAPI.login(this.email, this.pass).then(res => {
+          this.$store.dispatch('login', res.data.token);
+          this.$router.push({name: 'Home'})
+        })
       }
     }
   }
